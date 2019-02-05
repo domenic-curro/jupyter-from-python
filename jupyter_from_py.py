@@ -27,7 +27,7 @@ if __name__ == '__main__':
     nb = new_notebook()
 
     try:
-        # with open('ZuluV2_eval.py') as f:
+        # with open('example.py') as f:
         with open(sys.argv[1]) as f:
             code = f.read()
     except:
@@ -39,7 +39,7 @@ if __name__ == '__main__':
     lines = code.split('\n')
     lines_clean = []
     for line in lines:
-        if not '# coding' in line:
+        if not '# coding' in line and not '#!' in line:
             lines_clean += [line]
     lines = lines_clean
 
@@ -75,7 +75,7 @@ if __name__ == '__main__':
         code = '\n'.join(code)
 
         is_cell_empty = len(code.strip()) == 0
-        if is_same_cell:
+        if is_cell_empty:
             continue
 
         if cell_type == CELL_TYPE_CODE:
@@ -88,4 +88,4 @@ if __name__ == '__main__':
             assert False
 
     nbformat.write(nb, sys.argv[1].split('.py')[0] + '.ipynb')
-    # nbformat.write(nb, 'ZuluV2_eval.py'.split('.py')[0] + '.ipynb')
+    # nbformat.write(nb, 'example.py'.split('.py')[0] + '.ipynb')
