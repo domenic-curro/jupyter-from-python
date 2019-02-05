@@ -4,8 +4,8 @@ Here we solve the problem of going from python file to jupyter notebook, somethi
 ## Use
 ```
 python jupyter_from_py.py <your_script>.py
-> <your_script>.ipynb
 ```
+You should have a new file named `<your_script>.ipynb`.
 
 ## Example
 To run an example of this script:
