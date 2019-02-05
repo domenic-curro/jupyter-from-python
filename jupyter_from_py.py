@@ -27,7 +27,6 @@ if __name__ == '__main__':
     nb = new_notebook()
 
     try:
-        # with open('example.py') as f:
         with open(sys.argv[1]) as f:
             code = f.read()
     except:
@@ -88,4 +87,3 @@ if __name__ == '__main__':
             assert False
 
     nbformat.write(nb, sys.argv[1].split('.py')[0] + '.ipynb')
-    # nbformat.write(nb, 'example.py'.split('.py')[0] + '.ipynb')
