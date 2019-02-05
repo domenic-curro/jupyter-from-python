@@ -29,7 +29,7 @@ if __name__ == '__main__':
     try:
         # with open('ZuluV2_eval.py') as f:
         with open(sys.argv[1]) as f:
-            code = f.read() 
+            code = f.read()
     except:
         print('> ERROR')
         print('> USAGE: python jupyter_from_py.py my_script.py')
@@ -37,6 +37,11 @@ if __name__ == '__main__':
         quit()
 
     lines = code.split('\n')
+    lines_clean = []
+    for line in lines:
+        if not '# coding' in line:
+            lines_clean += [line]
+    lines = lines_clean
 
     cell_blocks = []
 
@@ -52,9 +57,9 @@ if __name__ == '__main__':
 
     # continuing logic
     for line in lines[1:]:
-        is_celltype_same = (celltype_for_line(line) == current_cell_type) or (celltype_for_line(line) == CELL_TYPE_UNKNOWN)
+        is_same_cell = celltype_for_line(line) == CELL_TYPE_UNKNOWN
 
-        if is_celltype_same:
+        if is_same_cell:
             # continue adding to the cell
             cell_lines += [line]
         else:
@@ -69,6 +74,10 @@ if __name__ == '__main__':
     for cell_type, code in cell_blocks:
         code = '\n'.join(code)
 
+        is_cell_empty = len(code.strip()) == 0
+        if is_same_cell:
+            continue
+
         if cell_type == CELL_TYPE_CODE:
             code = code.replace(IDENTIFIER_CODE, '')
             nb.cells.append(new_code_cell(code.strip()))
@@ -77,8 +86,6 @@ if __name__ == '__main__':
             nb.cells.append(new_markdown_cell(code.strip()))
         else:
             assert False
-
-
 
     nbformat.write(nb, sys.argv[1].split('.py')[0] + '.ipynb')
     # nbformat.write(nb, 'ZuluV2_eval.py'.split('.py')[0] + '.ipynb')
